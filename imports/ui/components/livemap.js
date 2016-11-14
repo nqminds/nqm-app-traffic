@@ -7,17 +7,22 @@ https://github.com/Leaflet/Leaflet.markercluster#usage
 
 import React from "react";
 import { Map, TileLayer, Marker, Popup, LayerGroup, ZoomControl } from 'react-leaflet';
+import FontIcon from 'material-ui/FontIcon';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import SelectField from 'material-ui/SelectField';
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import {List, ListItem} from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
 import DatePicker from 'material-ui/DatePicker';
 import MarkerCluster from "./markercluster"
 import Chart from "./chart";
 import Heatmap from "./heatmap"
 import Control from './react-leaflet-control';
+import Checkbox from 'material-ui/Checkbox';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 const defaultData = [{ lat: 52.008778, lon: -0.771088}];
 const molecules = {1:'All', 2:'NO2', 3:'SO2', 4:'PM10', 5:'PM25', 6:'O3'};
@@ -109,37 +114,54 @@ class Livemap extends React.Component {
                     realTimeData={self.props.realTimeData}
                     onClickMarker={this._onClickMarker.bind(this)}
                 />);
+            //<FontIcon className="material-icons" style={iconStyles}>home</FontIcon>    
             controlChart = (
-                <Control position="topright" >
+                <Control position="topleft" >
                     <div className="chartinfo">
-                        <div className="flex-container-column">
-                            <div className="lex-items-column">
-                                <Chart
-                                    moleculeType={molecules[this.state.moleculeIndex]}
-                                    data={this.props.data}
-                                    type={"Line"}
-                                    barcount={10}
+                        <MuiThemeProvider muiTheme={this.context.muiTheme}>
+                            <List>
+                                <ListItem
+                                    leftIcon={<FontIcon className="material-icons">home</FontIcon>}
+                                    primaryText="23.6899408812"
+                                    secondaryText="Entry Congestion Level"
                                 />
-                            </div>
-                            <div className="lex-items-column">
-                                <Chart
-                                    moleculeType={molecules[this.state.moleculeIndex]}
-                                    data={this.props.data}
-                                    type={"Bar"}
-                                    barcount={10}
+                                <ListItem
+                                    leftIcon={<FontIcon className="material-icons">home</FontIcon>}
+                                    primaryText="31.4933697146"
+                                    secondaryText="Exit Congestion Speed"
                                 />
-                            </div>
-                            <div className="lex-items-column">
-                                <MuiThemeProvider muiTheme={this.context.muiTheme}>
-                                    <DatePicker
-                                        floatingLabelText="Filter Date"
-                                        hintText="Filter date"
-                                        value={this.state.filterDate}
-                                        onChange={this.handleDateChange.bind(this)}
-                                    />
-                                </MuiThemeProvider>
-                            </div>
-                        </div>
+                                <ListItem
+                                    leftIcon={<FontIcon className="material-icons">home</FontIcon>}
+                                    primaryText="10"
+                                    secondaryText="Roundabout Entry"
+                                />
+                                <ListItem
+                                    leftIcon={<FontIcon className="material-icons">home</FontIcon>}
+                                    primaryText="10"
+                                    secondaryText="Roundabout Entry Speed"
+                                />
+                                <ListItem
+                                    leftIcon={<FontIcon className="material-icons">home</FontIcon>}
+                                    primaryText="10"
+                                    secondaryText="Roundabout Exit"
+                                />
+                                <ListItem
+                                    leftIcon={<FontIcon className="material-icons">home</FontIcon>}
+                                    primaryText="10"
+                                    secondaryText="Roundabout Exit Speed"
+                                />
+                                <ListItem
+                                    leftIcon={<FontIcon className="material-icons">home</FontIcon>}
+                                    primaryText="10"
+                                    secondaryText="Roundabout Inside"
+                                />
+                                <ListItem
+                                    leftIcon={<FontIcon className="material-icons">home</FontIcon>}
+                                    primaryText="10"
+                                    secondaryText="Roundabout Inside Speed"
+                                />                                                                                                                        
+                            </List>
+                        </MuiThemeProvider>
                     </div>
                 </Control>);
         } else if (!_.isEmpty(self.props.metaData) && this.state.mapType==2) {
@@ -169,24 +191,6 @@ class Livemap extends React.Component {
                 {heatMapComponent}
                 {markerComponent}
                 {controlChart}
-                <Control position="topleft" >
-                    <MuiThemeProvider muiTheme={this.context.muiTheme}>
-                        <div className="toolbarinfo">
-                            <DropDownMenu value={this.state.moleculeIndex} onChange={this.handleMoleculeChange.bind(this)}>
-                                <MenuItem value={1} primaryText={molecules[1]} />
-                                <MenuItem value={2} primaryText={molecules[2]} />
-                                <MenuItem value={3} primaryText={molecules[3]} />
-                                <MenuItem value={4} primaryText={molecules[4]} />
-                                <MenuItem value={5} primaryText={molecules[5]} />
-                                <MenuItem value={6} primaryText={molecules[6]} />
-                            </DropDownMenu>
-                            <DropDownMenu value={this.state.mapType} onChange={this.handleMapType.bind(this)}>
-                                <MenuItem value={1} primaryText="Sensor Map" />
-                                <MenuItem value={2} primaryText="Heat Map" />
-                            </DropDownMenu>
-                        </div>
-                    </MuiThemeProvider>
-                </Control>
             </Map>);
     }
 }
