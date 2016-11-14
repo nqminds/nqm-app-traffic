@@ -121,8 +121,8 @@ class Livemap extends React.Component {
                         <MuiThemeProvider muiTheme={this.context.muiTheme}>
                             <List>
                                 <ListItem
-                                    leftIcon={<FontIcon className="material-icons">home</FontIcon>}
-                                    primaryText="23.6899408812"
+                                    leftIcon={<FontIcon className="material-icons md-48">home</FontIcon>}
+                                    primaryText={<h1>23.6899408812</h1>}
                                     secondaryText="Entry Congestion Level"
                                 />
                                 <ListItem
