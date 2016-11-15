@@ -116,48 +116,20 @@ class Livemap extends React.Component {
                 />);
             //<FontIcon className="material-icons" style={iconStyles}>home</FontIcon>    
             controlChart = (
-                <Control position="topleft" >
+                <Control position="topright" >
                     <div className="chartinfo">
                         <MuiThemeProvider muiTheme={this.context.muiTheme}>
                             <List>
                                 <ListItem
-                                    leftIcon={<FontIcon className="material-icons md-48">home</FontIcon>}
-                                    primaryText={<h1>23.6899408812</h1>}
-                                    secondaryText="Entry Congestion Level"
-                                />
-                                <ListItem
-                                    leftIcon={<FontIcon className="material-icons">home</FontIcon>}
-                                    primaryText="31.4933697146"
-                                    secondaryText="Exit Congestion Speed"
-                                />
-                                <ListItem
-                                    leftIcon={<FontIcon className="material-icons">home</FontIcon>}
-                                    primaryText="10"
-                                    secondaryText="Roundabout Entry"
-                                />
-                                <ListItem
-                                    leftIcon={<FontIcon className="material-icons">home</FontIcon>}
-                                    primaryText="10"
-                                    secondaryText="Roundabout Entry Speed"
-                                />
-                                <ListItem
-                                    leftIcon={<FontIcon className="material-icons">home</FontIcon>}
-                                    primaryText="10"
-                                    secondaryText="Roundabout Exit"
-                                />
-                                <ListItem
-                                    leftIcon={<FontIcon className="material-icons">home</FontIcon>}
-                                    primaryText="10"
+                                    primaryText={<h1>23.68</h1>}
                                     secondaryText="Roundabout Exit Speed"
                                 />
                                 <ListItem
-                                    leftIcon={<FontIcon className="material-icons">home</FontIcon>}
-                                    primaryText="10"
+                                    primaryText={<h1>23.68</h1>}
                                     secondaryText="Roundabout Inside"
                                 />
                                 <ListItem
-                                    leftIcon={<FontIcon className="material-icons">home</FontIcon>}
-                                    primaryText="10"
+                                    primaryText={<h1>23.68</h1>}
                                     secondaryText="Roundabout Inside Speed"
                                 />                                                                                                                        
                             </List>

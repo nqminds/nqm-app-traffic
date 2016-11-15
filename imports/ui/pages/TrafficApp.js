@@ -79,6 +79,7 @@ class TrafficApp extends React.Component {
 
   render() {
     const appBarHeight = Meteor.settings.public.showAppBar !== false ? 50 : 0;
+    const leftPanelWidth = 200;
     const styles = {
       root: {
         height: "100%"
@@ -87,8 +88,15 @@ class TrafficApp extends React.Component {
         position: "absolute",        
         top: appBarHeight,
         bottom: 0,
-        left: 0,
+        left: leftPanelWidth,
         right: 0
+      },
+      leftPanel: {
+        background: "#708090",
+        position: "fixed",
+        top: appBarHeight,
+        bottom: 0,
+        width: leftPanelWidth
       }
     };
 
@@ -115,15 +123,67 @@ class TrafficApp extends React.Component {
     
     return (
       <div style={styles.root}>
-      <div style={styles.mainPanel}>
-        {liveMap}
+        <div style={styles.leftPanel}>
+          <div className="flex-container-column">
+            <div className="flex-items-column">
+              <p>
+                <b className="pnumber" style={{color:"#1abc9c"}}>23.68</b><br></br>
+                <small className="phead">Entry Congestion Level</small>
+              </p>
+            </div>
+            <div className="flex-items-column">
+              <p>
+                <b className="pnumber" style={{color:"#1abc9c"}}>23.68</b><br></br>
+                <small className="phead">Exit Congestion Speed</small>
+              </p>
+            </div>
+            <div className="flex-items-column">
+              <p>
+                <b className="pnumber" style={{color:"#1abc9c"}}>23.68</b><br></br>
+                <small className="phead">Roundabout Entry</small>
+              </p>
+            </div>
+            <div className="flex-items-column">
+              <p>
+                <b className="pnumber" style={{color:"#1abc9c"}}>23.68</b><br></br>
+                <small className="phead">Roundabout Entry Speed</small>
+              </p>
+            </div>
+            <div className="flex-items-column">
+              <p>
+                <b className="pnumber" style={{color:"#1abc9c"}}>23.68</b><br></br>
+                <small className="phead">Roundabout Exit</small>
+              </p>
+            </div>
+            <div className="flex-items-column">
+              <p>
+                <b className="pnumber" style={{color:"#1abc9c"}}>23.68</b><br></br>
+                <small className="phead">Roundabout Exit Speed</small>
+              </p>
+            </div>
+            <div className="flex-items-column">
+              <p>
+                <b className="pnumber" style={{color:"#1abc9c"}}>23.68</b><br></br>
+                <small className="phead">Roundabout Inside</small>
+              </p>
+            </div>
+            <div className="flex-items-column">
+              <p>
+                <b className="pnumber" style={{color:"#1abc9c"}}>23.68</b><br></br>
+                <small className="phead">Roundabout Inside Speed</small>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div style={styles.mainPanel}>
+          {liveMap}
+        </div>
         <Snackbar
           open={this.state.snackBarOpen}
           message={this.state.snackBarMessage}
           autoHideDuration={4000}
           onRequestClose={this.handleSnackbarClose.bind(this)}
         />
-      </div>
       </div>
     );
   }
