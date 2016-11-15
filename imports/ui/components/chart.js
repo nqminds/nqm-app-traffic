@@ -22,23 +22,16 @@ class Chart extends React.Component {
         let ret;
         let className;
         let id;
-        let undef = false;
 
-        if (this.props.data.length) {
-            if(this.props.data[0].Species[this.props.moleculeType]==undefined)
-                 undef = true;
-        }
-        
         if (this.props.type=="Line") {
             
             className = "ct-line-chart"
             id="line-chart";
 
-            if (!undef) {
-                graphData = _.map(this.props.data, (val)=>{
-                    return {x:val.timestamp, y:val.Species[this.props.moleculeType]};
-                });
-            } else graphData = [];
+            graphData = _.map(this.props.data, (val)=>{
+                return {x:val.timestamp, y:val.Species[this.props.moleculeType]};
+            });
+            
 
             data = {
                 series: [{
@@ -90,22 +83,20 @@ class Chart extends React.Component {
 
             graphData = _.fill(Array(bounds.length), 0);
 
-            if (!undef) {
-                _.forEach(this.props.data, (val)=>{
-                    if (this.props.barcount<=3) {
-                        _.forEach(bounds, (elb)=>{
-                            if (val.Species[this.props.moleculeType]==elb[0])
+            _.forEach(this.props.data, (val)=>{
+                if (this.props.barcount<=3) {
+                    _.forEach(bounds, (elb)=>{
+                        if (val.Species[this.props.moleculeType]==elb[0])
+                            graphData[elb[2]]++;
+                    });
+                } else {
+                    _.forEach(bounds, (elb)=>{
+                        if ((val.Species[this.props.moleculeType]>=elb[0] && val.Species[this.props.moleculeType]<elb[1] && elb[2]<3)
+                            || (val.Species[this.props.moleculeType]==elb[1] && elb[2]==3))
                                 graphData[elb[2]]++;
-                        });
-                    } else {
-                        _.forEach(bounds, (elb)=>{
-                            if ((val.Species[this.props.moleculeType]>=elb[0] && val.Species[this.props.moleculeType]<elb[1] && elb[2]<3)
-                                 || (val.Species[this.props.moleculeType]==elb[1] && elb[2]==3))
-                                graphData[elb[2]]++;
-                        });
-                    }
-                });
-            }
+                    });
+                }
+            });
 
             data = {
                 labels: labelData,
@@ -142,7 +133,6 @@ class Chart extends React.Component {
 }
 
 Chart.propTypes = {
-    moleculeType: React.PropTypes.string.isRequired,
     data: React.PropTypes.array.isRequired,
     type: React.PropTypes.string.isRequired,
     barcount: React.PropTypes.number.isRequired

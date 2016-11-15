@@ -63,24 +63,6 @@ class Livemap extends React.Component {
         });
     }
 
-    handleMoleculeChange(event, index, value){
-        this.setState({
-            moleculeIndex: value
-        })
-    }
-
-    handleMapType(event, index, value){
-        let moleculeIndex = this.state.moleculeIndex;
-
-        if (this.state.mapType==2)
-            moleculeIndex = 1;
-
-        this.setState({
-            moleculeIndex: moleculeIndex,
-            mapType: value
-        })
-    }
-
     handleDateChange(event, date) {
         this.setState({
             filterDate: date,
@@ -106,7 +88,7 @@ class Livemap extends React.Component {
         let controlChart = null;
         let heatMapComponent = null;
 
-        if (!_.isEmpty(self.props.metaData) && this.state.mapType==1) {
+        if (!_.isEmpty(self.props.metaData)) {
             markerComponent = (
                 <MarkerCluster
                     moleculeType={molecules[this.state.moleculeIndex]}
@@ -114,35 +96,31 @@ class Livemap extends React.Component {
                     realTimeData={self.props.realTimeData}
                     onClickMarker={this._onClickMarker.bind(this)}
                 />);
-            //<FontIcon className="material-icons" style={iconStyles}>home</FontIcon>    
             controlChart = (
                 <Control position="topright" >
                     <div className="chartinfo">
-                        <MuiThemeProvider muiTheme={this.context.muiTheme}>
-                            <List>
-                                <ListItem
-                                    primaryText={<h1>23.68</h1>}
-                                    secondaryText="Roundabout Exit Speed"
+                        <div className="flex-container-column">
+                            <div className="flex-chart-column">
+                                <Chart
+                                    moleculeType={molecules[this.state.moleculeIndex]}
+                                    data={this.props.data}
+                                    type={"Line"}
+                                    barcount={10}
                                 />
-                                <ListItem
-                                    primaryText={<h1>23.68</h1>}
-                                    secondaryText="Roundabout Inside"
-                                />
-                                <ListItem
-                                    primaryText={<h1>23.68</h1>}
-                                    secondaryText="Roundabout Inside Speed"
-                                />                                                                                                                        
-                            </List>
-                        </MuiThemeProvider>
+                            </div>
+                            <div className="flex-chart-column">
+                                <MuiThemeProvider muiTheme={this.context.muiTheme}>
+                                    <DatePicker
+                                        floatingLabelText="Filter Date"
+                                        hintText="Filter date"
+                                        value={this.state.filterDate}
+                                        onChange={this.handleDateChange.bind(this)}
+                                    />
+                                </MuiThemeProvider>
+                            </div>
+                        </div>
                     </div>
                 </Control>);
-        } else if (!_.isEmpty(self.props.metaData) && this.state.mapType==2) {
-            heatMapComponent = (
-                <Heatmap
-                    moleculeType={molecules[this.state.moleculeIndex]}
-                    metaData={self.props.metaData}
-                    realTimeData={self.props.realTimeData}
-                />);
         }
 
         return (
@@ -160,7 +138,6 @@ class Livemap extends React.Component {
                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 />
                 <ZoomControl position='bottomright' />
-                {heatMapComponent}
                 {markerComponent}
                 {controlChart}
             </Map>);
