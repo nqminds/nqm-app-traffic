@@ -7,22 +7,14 @@ https://github.com/Leaflet/Leaflet.markercluster#usage
 
 import React from "react";
 import { Map, TileLayer, Marker, Popup, LayerGroup, ZoomControl } from 'react-leaflet';
-import FontIcon from 'material-ui/FontIcon';
-import IconMenu from 'material-ui/IconMenu';
-import IconButton from 'material-ui/IconButton';
-import MenuItem from 'material-ui/MenuItem';
-import DropDownMenu from 'material-ui/DropDownMenu';
 import SelectField from 'material-ui/SelectField';
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import {List, ListItem} from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
 import DatePicker from 'material-ui/DatePicker';
+import MenuItem from 'material-ui/MenuItem';
 import MarkerCluster from "./markercluster"
 import Chart from "./chart";
 import Heatmap from "./heatmap"
 import Control from './react-leaflet-control';
-import Checkbox from 'material-ui/Checkbox';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 const defaultData = [{ lat: 52.008778, lon: -0.771088}];
 const styles = {
@@ -38,6 +30,8 @@ class Livemap extends React.Component {
         let date = new Date();
         
         this.markerID = null;
+        this.metricsMenu = null;
+        this.metricsIdxMap = {};
 
         date.setHours(0);
         date.setMinutes(0);
@@ -47,6 +41,7 @@ class Livemap extends React.Component {
         this.state = {
             centerPosition: L.latLng(defaultData[0], defaultData[1]),
             filterDate: date,
+            metrics: 1
         };
     }
 
@@ -54,6 +49,12 @@ class Livemap extends React.Component {
         let bounds = L.latLngBounds(_.map(this.props.metaData, (val, key)=>{
             return L.latLng(val.Lat, val.Lon);
         }));
+
+        let idx = 1;
+        this.metricsMenu = _.map(this.props.metricsMetadata, (val,key)=>{
+            this.metricsIdxMap[idx] = key;
+            return <MenuItem value={idx++} primaryText={key} key={key}/>
+        });
 
         this.setState({
             centerPosition: bounds.getCenter()
@@ -69,13 +70,22 @@ class Livemap extends React.Component {
             this._onClickMarker(this.markerID);
     }
 
+    handleMetricsChange(event, index, value) {
+        this.setState({
+            metrics: value,
+        });
+
+        if (this.markerID!=null)
+            this._onClickMarker(this.markerID);
+    }
+
     _onClickMarker(id) {
         const gte = this.state.filterDate.getTime();
         const lte = gte + 24*60*60*1000;
 
         this.markerID = id;
 
-        this.props.onUpdatePlot(id, [gte, lte]);
+        this.props.onUpdatePlot(id, [gte/1000, lte/1000], this.metricsIdxMap[this.state.metrics]);
     }
 
     render() {
@@ -91,27 +101,34 @@ class Livemap extends React.Component {
                     realTimeData={self.props.realTimeData}
                     onClickMarker={this._onClickMarker.bind(this)}
                 />);
+
             controlChart = (
                 <Control position="topright" >
                     <div className="chartinfo">
                         <div className="flex-container-column">
-                            <div className="flex-chart-column">
-                                <Chart
-                                    data={this.props.data}
-                                    type={"Line"}
-                                    barcount={10}
-                                />
-                            </div>
-                            <div className="flex-chart-column">
-                                <MuiThemeProvider muiTheme={this.context.muiTheme}>
+                            <Chart
+                                metricsKey={this.metricsIdxMap[this.state.metrics]}
+                                data={this.props.data}
+                                type={"Line"}
+                                barcount={10}
+                            />
+                            <MuiThemeProvider muiTheme={this.context.muiTheme}>
+                                <div>
+                                    <SelectField
+                                        floatingLabelText="Metric"
+                                        value={this.state.metrics}
+                                        onChange={this.handleMetricsChange.bind(this)}
+                                    >
+                                        {this.metricsMenu}
+                                    </SelectField>
                                     <DatePicker
                                         floatingLabelText="Filter Date"
                                         hintText="Filter date"
                                         value={this.state.filterDate}
                                         onChange={this.handleDateChange.bind(this)}
                                     />
-                                </MuiThemeProvider>
-                            </div>
+                                </div>
+                            </MuiThemeProvider>
                         </div>
                     </div>
                 </Control>);
@@ -120,7 +137,7 @@ class Livemap extends React.Component {
         return (
             <Map
                 center={this.state.centerPosition}
-                zoom={11}
+                zoom={15}
                 scrollWheelZoom={false}
                 touchZoom={false}
                 maxBounds={null}
@@ -139,6 +156,7 @@ class Livemap extends React.Component {
 }
 
 Livemap.propTypes = {
+    metricsMetadata: React.PropTypes.object.isRequired, 
     metaData: React.PropTypes.object.isRequired,
     realTimeData: React.PropTypes.array.isRequired,
     onUpdatePlot: React.PropTypes.func.isRequired,

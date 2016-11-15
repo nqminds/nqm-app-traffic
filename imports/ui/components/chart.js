@@ -29,7 +29,7 @@ class Chart extends React.Component {
             id="line-chart";
 
             graphData = _.map(this.props.data, (val)=>{
-                return {x:val.timestamp, y:val.Species[this.props.moleculeType]};
+                return {x:val.timestamp, y:val[this.props.metricsKey]};
             });
             
 
@@ -86,13 +86,13 @@ class Chart extends React.Component {
             _.forEach(this.props.data, (val)=>{
                 if (this.props.barcount<=3) {
                     _.forEach(bounds, (elb)=>{
-                        if (val.Species[this.props.moleculeType]==elb[0])
+                        if (val[this.props.metricsKey]==elb[0])
                             graphData[elb[2]]++;
                     });
                 } else {
                     _.forEach(bounds, (elb)=>{
-                        if ((val.Species[this.props.moleculeType]>=elb[0] && val.Species[this.props.moleculeType]<elb[1] && elb[2]<3)
-                            || (val.Species[this.props.moleculeType]==elb[1] && elb[2]==3))
+                        if ((val[this.props.metricsKey]>=elb[0] && val[this.props.metricsKey]<elb[1] && elb[2]<3)
+                            || (val[this.props.metricsKey]==elb[1] && elb[2]==3))
                                 graphData[elb[2]]++;
                     });
                 }
@@ -133,6 +133,7 @@ class Chart extends React.Component {
 }
 
 Chart.propTypes = {
+    metricsKey: React.PropTypes.string.isRequired, 
     data: React.PropTypes.array.isRequired,
     type: React.PropTypes.string.isRequired,
     barcount: React.PropTypes.number.isRequired

@@ -63,14 +63,16 @@ class TrafficApp extends React.Component {
       trafficMetadata: {},
       chartType: "Line",
       ID: null,
-      timestampBounds: [0,0]
+      timestampBounds: [0,0],
+      metricsKey: null
     };
   }
 
-  _onUpdatePlot(id, timeBounds) {
+  _onUpdatePlot(id, timeBounds, metricsKey) {
     this.setState({
       ID: id,
-      timestampBounds: timeBounds
+      timestampBounds: timeBounds,
+      metricsKey: metricsKey
     });
   }
 
@@ -136,7 +138,8 @@ class TrafficApp extends React.Component {
     };
 
     const resourceLoad = (this.state.ID!=null) ? true : false;
-    const resourceOptions = { sort: { timestamp: 1 }};
+    const resourceOptions = { sort: { timestamp: 1 } };
+    
     const resourceFilter = {ID: {$eq: this.state.ID},
                                 "$and":[{"timestamp":{"$gte":this.state.timestampBounds[0]}},
                                         {"timestamp":{"$lte":this.state.timestampBounds[1]}}]};
@@ -150,6 +153,7 @@ class TrafficApp extends React.Component {
           filter={resourceFilter}
           options={resourceOptions}
           load={resourceLoad}
+          metricsMetadata={metricsMetadata}
           metaData={this.state.trafficMetadata}
           realTimeData={this.props.data}
           onUpdatePlot={this._onUpdatePlot.bind(this)}
