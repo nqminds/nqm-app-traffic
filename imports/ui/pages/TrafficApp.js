@@ -25,16 +25,16 @@ class TrafficApp extends React.Component {
     this.state = {
       snackBarMessage:"",
       snackBarOpen: false,
-      airMetadata: {},
+      trafficMetadata: {},
       chartType: "Line",
-      siteCode: null,
+      ID: null,
       timestampBounds: [0,0]
     };
   }
 
   _onUpdatePlot(id, timeBounds) {
     this.setState({
-      siteCode: id,
+      ID: id,
       timestampBounds: timeBounds
     });
   }
@@ -46,28 +46,28 @@ class TrafficApp extends React.Component {
   };
 
   componentWillMount() {
-    let airMetadata = {};
+    let trafficMetadata = {};
 
-    this.tdxApi.getDatasetData(Meteor.settings.public.airMetadata, null, null, null, (err, data)=>{
+    this.tdxApi.getDatasetData(Meteor.settings.public.trafficMetadata, null, null, null, (err, data)=>{
       if (err) {
         this.setState({
           snackBarOpen: true,
-          snackBarMessage: "No air metadata available!"
+          snackBarMessage: "No traffic metadata available!"
         });  
       } else {
         if (!data.data.length){
           this.setState({
             snackBarOpen: true,
-            snackBarMessage: "No air metadata available!"
+            snackBarMessage: "No traffic metadata available!"
           });          
         } else {
 
           _.forEach(data.data, (val)=>{
-            airMetadata[val.SiteCode] = val;
+            trafficMetadata[val.ID] = val;
           });
 
           this.setState({
-            'airMetadata': airMetadata
+            'trafficMetadata': trafficMetadata
           });
         }
       }
@@ -100,22 +100,22 @@ class TrafficApp extends React.Component {
       }
     };
 
-    const resourceLoad = (this.state.siteCode!=null) ? true : false;
+    const resourceLoad = (this.state.ID!=null) ? true : false;
     const resourceOptions = { sort: { timestamp: 1 }};
-    const resourceFilter = {SiteCode: {$eq: this.state.siteCode},
+    const resourceFilter = {ID: {$eq: this.state.ID},
                                 "$and":[{"timestamp":{"$gte":this.state.timestampBounds[0]}},
                                         {"timestamp":{"$lte":this.state.timestampBounds[1]}}]};
     
     let liveMap = null;
 
-    if (!_.isEmpty(this.state.airMetadata)) {
+    if (!_.isEmpty(this.state.trafficMetadata)) {
       liveMap =
         (<LivemapContainer
-          resourceId={Meteor.settings.public.airTable}
+          resourceId={Meteor.settings.public.trafficTable}
           filter={resourceFilter}
           options={resourceOptions}
           load={resourceLoad}
-          metaData={this.state.airMetadata}
+          metaData={this.state.trafficMetadata}
           realTimeData={this.props.data}
           onUpdatePlot={this._onUpdatePlot.bind(this)}
         />);  

@@ -25,7 +25,6 @@ import Checkbox from 'material-ui/Checkbox';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 const defaultData = [{ lat: 52.008778, lon: -0.771088}];
-const molecules = {1:'All', 2:'NO2', 3:'SO2', 4:'PM10', 5:'PM25', 6:'O3'};
 const styles = {
   customWidth: {
     width: 150,
@@ -47,15 +46,13 @@ class Livemap extends React.Component {
 
         this.state = {
             centerPosition: L.latLng(defaultData[0], defaultData[1]),
-            moleculeIndex: 1,
-            mapType: 1,
             filterDate: date,
         };
     }
 
     componentWillMount() {
         let bounds = L.latLngBounds(_.map(this.props.metaData, (val, key)=>{
-            return L.latLng(val.Latitude, val.Longitude);
+            return L.latLng(val.Lat, val.Lon);
         }));
 
         this.setState({
@@ -78,8 +75,7 @@ class Livemap extends React.Component {
 
         this.markerID = id;
 
-        if (this.state.moleculeIndex!=1)
-            this.props.onUpdatePlot(id, [gte, lte]);
+        this.props.onUpdatePlot(id, [gte, lte]);
     }
 
     render() {
@@ -91,7 +87,6 @@ class Livemap extends React.Component {
         if (!_.isEmpty(self.props.metaData)) {
             markerComponent = (
                 <MarkerCluster
-                    moleculeType={molecules[this.state.moleculeIndex]}
                     metaData={self.props.metaData}
                     realTimeData={self.props.realTimeData}
                     onClickMarker={this._onClickMarker.bind(this)}
@@ -102,7 +97,6 @@ class Livemap extends React.Component {
                         <div className="flex-container-column">
                             <div className="flex-chart-column">
                                 <Chart
-                                    moleculeType={molecules[this.state.moleculeIndex]}
                                     data={this.props.data}
                                     type={"Line"}
                                     barcount={10}

@@ -21,22 +21,19 @@ class MarkerCluster extends MapLayer {
         if (!_.isEmpty(this.props.metaData)) {
             markers = _.map(this.props.metaData, (val,key)=>{
 
-                this._markers[val.SiteCode] = L.marker(new L.LatLng(val.Latitude, val.Longitude), {
-                    title: val.LocalAuthorityName,
+                this._markers[val.ID] = L.marker(new L.LatLng(val.Lat, val.Lon), {
+                    title: val.Title,
                     icon: new L.TextIcon({
                         icontype: icontype,
                         text: mtext,
                         color: color,
-                        id: val.SiteCode
+                        id: val.ID
                     })
                 });
 
-                this._markers[val.SiteCode].bindPopup(
-                    "<b>Local authority name: </b>"+val.LocalAuthorityName+"<br>"+
-                    "<b>Site code: </b>"+val.SiteCode+"<br>"+
-                    "<b>Local authority code: </b>"+val.LocalAuthorityCode+"<br>"+
-                    "<b>Site type:</b>"+val.SiteType).on('click', (e) => {self.props.onClickMarker(e.target.options.icon.options.id)});
-                return this._markers[val.SiteCode];
+                this._markers[val.ID].bindPopup(
+                    val.Title).on('click', (e) => {self.props.onClickMarker(e.target.options.icon.options.id)});
+                return this._markers[val.ID];
             });
 
             this.leafletElement.addLayers(markers);
@@ -44,21 +41,6 @@ class MarkerCluster extends MapLayer {
     }
 
     componentWillReceiveProps(nextProps) {
-        _.forEach(nextProps.realTimeData, (val)=>{
-            let color = 'blue';
-            let mtext;
-            let icontype = "plain";
-
-            if (val.Species[nextProps.moleculeType]!=undefined) {
-                icontype = 'number';
-                mtext = val.Species[nextProps.moleculeType].toString();
-                if (val.Species[nextProps.moleculeType]>5)
-                    color = 'red';
-            }
-            
-            this._markers[val.SiteCode].options.icon.setType(icontype, color, mtext);
-             
-        });
     }
 
     shouldComponentUpdate() {
@@ -75,7 +57,6 @@ class MarkerCluster extends MapLayer {
 }
 
 MarkerCluster.propTypes = {
-    moleculeType: React.PropTypes.string.isRequired, 
     metaData: React.PropTypes.object.isRequired,
     realTimeData: React.PropTypes.array.isRequired,
     onClickMarker: React.PropTypes.func.isRequired
