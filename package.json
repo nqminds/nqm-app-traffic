@@ -1,5 +1,5 @@
 {
-  "name": "nqm-app-parking",
+  "name": "nqm-app-traffic",
   "private": true,
   "scripts": {
     "start": "meteor run"
@@ -44,16 +44,16 @@
   "devDependencies": {
     "@types/lodash": "^4.14.37"
   },
-  "description": "NQM App Parking",
+  "description": "NQM App Traffic",
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nqminds/nqm-app-parking.git"
+    "url": "git+https://github.com/nqminds/nqm-app-traffic.git"
   },
   "author": "Alexandru Mereacre",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nqminds/nqm-app-parking/issues"
+    "url": "https://github.com/nqminds/nqm-app-traffic/issues"
   },
-  "homepage": "https://github.com/nqminds/nqm-app-parking#readme"
+  "homepage": "https://github.com/nqminds/nqm-app-traffic#readme"
 }
