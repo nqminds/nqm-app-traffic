@@ -79,7 +79,7 @@ class TrafficApp extends React.Component {
 
   render() {
     const appBarHeight = Meteor.settings.public.showAppBar !== false ? 50 : 0;
-    const leftPanelWidth = 200;
+    const leftPanelWidth = 170;
     const styles = {
       root: {
         height: "100%"
@@ -92,7 +92,7 @@ class TrafficApp extends React.Component {
         right: 0
       },
       leftPanel: {
-        background: "#708090",
+        background: "white",
         position: "fixed",
         top: appBarHeight,
         bottom: 0,
@@ -125,51 +125,51 @@ class TrafficApp extends React.Component {
       <div style={styles.root}>
         <div style={styles.leftPanel}>
           <div className="flex-container-column">
-            <div className="flex-items-column">
+            <div className="flex-items-column" style={{background:"#1abc9c"}}>
               <p>
-                <b className="pnumber" style={{color:"#1abc9c"}}>23.68</b><br></br>
+                <b className="pnumber">23.68</b><br></br>
                 <small className="phead">Entry Congestion Level</small>
               </p>
             </div>
-            <div className="flex-items-column">
+            <div className="flex-items-column" style={{background:"#3498db"}}>
               <p>
-                <b className="pnumber" style={{color:"#1abc9c"}}>23.68</b><br></br>
+                <b className="pnumber">23.68</b><br></br>
                 <small className="phead">Exit Congestion Speed</small>
               </p>
             </div>
-            <div className="flex-items-column">
+            <div className="flex-items-column" style={{background:"#9b59b6"}}>
               <p>
-                <b className="pnumber" style={{color:"#1abc9c"}}>23.68</b><br></br>
+                <b className="pnumber">23.68</b><br></br>
                 <small className="phead">Roundabout Entry</small>
               </p>
             </div>
-            <div className="flex-items-column">
+            <div className="flex-items-column" style={{background:"#e74c3c"}}>
               <p>
-                <b className="pnumber" style={{color:"#1abc9c"}}>23.68</b><br></br>
+                <b className="pnumber">23.68</b><br></br>
                 <small className="phead">Roundabout Entry Speed</small>
               </p>
             </div>
-            <div className="flex-items-column">
+            <div className="flex-items-column" style={{background:"#f39c12"}}>
               <p>
-                <b className="pnumber" style={{color:"#1abc9c"}}>23.68</b><br></br>
+                <b className="pnumber">23.68</b><br></br>
                 <small className="phead">Roundabout Exit</small>
               </p>
             </div>
-            <div className="flex-items-column">
+            <div className="flex-items-column" style={{background:"#95a5a6"}}>
               <p>
-                <b className="pnumber" style={{color:"#1abc9c"}}>23.68</b><br></br>
+                <b className="pnumber">23.68</b><br></br>
                 <small className="phead">Roundabout Exit Speed</small>
               </p>
             </div>
-            <div className="flex-items-column">
+            <div className="flex-items-column" style={{background:"#16a085"}}>
               <p>
-                <b className="pnumber" style={{color:"#1abc9c"}}>23.68</b><br></br>
+                <b className="pnumber">23.68</b><br></br>
                 <small className="phead">Roundabout Inside</small>
               </p>
             </div>
-            <div className="flex-items-column">
+            <div className="flex-items-column" style={{background:"#e67e22"}}>
               <p>
-                <b className="pnumber" style={{color:"#1abc9c"}}>23.68</b><br></br>
+                <b className="pnumber">23.68</b><br></br>
                 <small className="phead">Roundabout Inside Speed</small>
               </p>
             </div>
