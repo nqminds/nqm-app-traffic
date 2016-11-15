@@ -12,6 +12,41 @@ import TDXAPI from "nqm-api-tdx/client-api";
 import LivemapContainer from "./livemap-container"
 import connectionManager from "../../api/manager/connection-manager";
 
+const metricsMetadata = {
+  EntryCongestionLevel: {
+    color: "#1abc9c",
+    text: "Entry Congestion Level"
+  },
+  ExitCongestionLevel: {
+    color: "#3498db",
+    text: "Exit Congestion Level"
+  },
+  RoundaboutEntry: {
+    color: "#9b59b6",
+    text: "Roundabout Entry"
+  },
+  RoundaboutEntrySpeed: {
+    color: "#e74c3c",
+    text: "Roundabout Entry Speed"
+  },
+  RoundaboutExit: {
+    color: "#f39c12",
+    text: "Roundabout Exit"
+  },
+  RoundaboutExitSpeed: {
+    color: "#95a5a6",
+    text: "Roundabout Exit Speed"
+  },
+  RoundaboutInside: {
+    color: "#16a085",
+    text: "Roundabout Inside"
+  },
+  RoundaboutInsideSpeed: {
+    color: "#e67e22",
+    text: "Roundabout Inside Speed"
+  }
+};
+
 class TrafficApp extends React.Component {
   constructor(props) {
     super(props);
@@ -121,58 +156,30 @@ class TrafficApp extends React.Component {
         />);  
     }
     
+    let metrics = {};
+    if (!this.props.data.length || this.state.ID==null) {
+      _.forEach(metricsMetadata, (val, key)=>{
+        metrics[key] = 0.0;
+      });
+    } else if (this.props.data.length && this.state.ID!=null){
+      metrics = _.find(this.props.data, (o)=>{return o.ID==this.state.ID});
+    }
+
+    const leftMetricsComponent =_.map(metricsMetadata, (val, key)=>{
+      return (
+            <div className="flex-items-column" style={{background:val.color}} key={key}>
+              <p>
+                <b className="pnumber">{metrics[key].toFixed(1)}</b><br></br>
+                <small className="phead">{val.text}</small>
+              </p>
+            </div>);
+    });
+
     return (
       <div style={styles.root}>
         <div style={styles.leftPanel}>
           <div className="flex-container-column">
-            <div className="flex-items-column" style={{background:"#1abc9c"}}>
-              <p>
-                <b className="pnumber">23.68</b><br></br>
-                <small className="phead">Entry Congestion Level</small>
-              </p>
-            </div>
-            <div className="flex-items-column" style={{background:"#3498db"}}>
-              <p>
-                <b className="pnumber">23.68</b><br></br>
-                <small className="phead">Exit Congestion Speed</small>
-              </p>
-            </div>
-            <div className="flex-items-column" style={{background:"#9b59b6"}}>
-              <p>
-                <b className="pnumber">23.68</b><br></br>
-                <small className="phead">Roundabout Entry</small>
-              </p>
-            </div>
-            <div className="flex-items-column" style={{background:"#e74c3c"}}>
-              <p>
-                <b className="pnumber">23.68</b><br></br>
-                <small className="phead">Roundabout Entry Speed</small>
-              </p>
-            </div>
-            <div className="flex-items-column" style={{background:"#f39c12"}}>
-              <p>
-                <b className="pnumber">23.68</b><br></br>
-                <small className="phead">Roundabout Exit</small>
-              </p>
-            </div>
-            <div className="flex-items-column" style={{background:"#95a5a6"}}>
-              <p>
-                <b className="pnumber">23.68</b><br></br>
-                <small className="phead">Roundabout Exit Speed</small>
-              </p>
-            </div>
-            <div className="flex-items-column" style={{background:"#16a085"}}>
-              <p>
-                <b className="pnumber">23.68</b><br></br>
-                <small className="phead">Roundabout Inside</small>
-              </p>
-            </div>
-            <div className="flex-items-column" style={{background:"#e67e22"}}>
-              <p>
-                <b className="pnumber">23.68</b><br></br>
-                <small className="phead">Roundabout Inside Speed</small>
-              </p>
-            </div>
+            {leftMetricsComponent}
           </div>
         </div>
         <div style={styles.mainPanel}>
