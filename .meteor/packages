@@ -22,5 +22,3 @@ kadira:flow-router
 react-meteor-data
 http@1.2.9_1
 meteorhacks:aggregate
-d3js:d3
-momentjs:moment

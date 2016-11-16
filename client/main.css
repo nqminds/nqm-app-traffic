@@ -75,7 +75,7 @@ input:-webkit-autofill:focus {
 }
 
 .leaflet-container {
-    min-height: 800px;
+    height: 100%;
     width: 100%;
 }
 
