@@ -34,7 +34,7 @@ class ConnectionManager {
     console.log("authenticating ddp connection");
 
     // Call the TDX server, passing our auth token.
-    this._connection.call("/app/jwtAuth", token, function (err, result) {
+    this._connection.call("/auth", token, function (err, result) {
       if (err) {
         console.log("ddpConnection auth error: " + err.message);
       } else {

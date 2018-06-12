@@ -1,6 +1,7 @@
 {
 	"public": {
-		"ddpServerURL": "https://tbx.nq-m.com/",
+		"appToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0ZHgubnEtbS5jb20iLCJhdWQiOiJ0ZHgubnEtbS5jb20iLCJzdWIiOiJCSmdVSmdENmxRIiwicmVmIjoiOjpmZmZmOjMxLjQ5LjYyLjAiLCJ2ZXIiOjEsIm93biI6Im5xbWluZHNAZ21haWwuY29tL3RkeC5ucS1tLmNvbSIsImV4cCI6MTY4NjQ5NTg4MCwiaWF0IjoxNTI4ODE1ODgwfQ.P--X_kmoIEoQ0K5yuEX_89Hwjubbp175OknEHY-E0rQY46jfsTK9DYiZ4ufCcPbLIsWBvEOapaTkXBC8jY_ggAqB6mhYIX5gRTeKfllsEIKXI6IwVykT_HduXyz9nFtY2hMF-LbdxisIRatQ0QaARXSpJS2tWDs_XtleHe_f-VchXCH4ql0m3lQ95lOxcAXv5jZNeimBlGULn9gsxhuyQ5F1t-92X90bg31zUuII-QeyjYioO1u_FOB-sB8KQJnCWGEjMtgHD0RySByhIUrkvfH1u0mPwB8FdpKtHAl1Fw2OZhYfGuYNHqKQgju_WhEE7MdrrHA4_EsccblJnbcBBg",
+		"ddpServerURL": "https://ddp.nq-m.com/",
 		"authServerURL": "https://tdx.nq-m.com",
     	"commandHost": "https://cmd.nq-m.com",
     	"queryHost": "https://q.nq-m.com",
