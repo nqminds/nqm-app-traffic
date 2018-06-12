@@ -49,7 +49,7 @@ FlowRouter.route("/auth-server", {
   name: "authServerRedirect",
   triggersEnter: [function (context, redirect) {
     console.log("redirecting to auth server");
-    window.location = Meteor.settings.public.authServerURL + "/auth/?rurl=" + window.location.href;
+    window.location = Meteor.settings.public.authServerURL + "/auth/?rurl=" + window.location.href + "&a=" + Meteor.settings.public.appToken;
   }]
 });
 
